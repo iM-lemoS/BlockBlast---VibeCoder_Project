@@ -1,7 +1,6 @@
 # 04. State Management
 
-Given the simplicity of the game, we will avoid heavy libraries like Redux. 
-**React Context API combined with `useReducer`** is the perfect middle-ground for managing the game loop.
+Given the simplicity of the game, we will avoid heavy libraries like Redux. **React Context API combined with `useReducer`** is the perfect middle-ground for managing the game loop.
 
 ## Global Game State (`GameStateContext`)
 ```javascript

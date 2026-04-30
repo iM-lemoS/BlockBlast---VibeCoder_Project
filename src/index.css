@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+/* ─── Zen Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --color-bg:          #F4F4F5;
+  --color-surface:     #FFFFFF;
+  --color-cell-empty:  #E4E4E7;
+  --color-cell-border: #D4D4D8;
+  --color-block:       #A78BFA;
+  --color-block-light: #C4B5FD;
+  --color-block-dark:  #7C3AED;
+  --color-text:        #3F3F46;
+  --color-text-muted:  #A1A1AA;
+  --color-accent:      #BAE6FD;
+  --shadow-soft:       0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.08);
+  --radius-cell:       6px;
+  --radius-card:       16px;
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; width: 100%; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Cell Animations ────────────────────────────────────────────────── */
+
+/* Block placed: scale in with a gentle bounce */
+@keyframes cellAppear {
+  0%   { transform: scale(0.45); opacity: 0.4; }
+  65%  { transform: scale(1.07); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+/* Line clear: brief bright flash, then gentle fade out */
+@keyframes cellClear {
+  0%   { transform: scale(1);    opacity: 1;   filter: brightness(1); }
+  30%  { transform: scale(1.08); opacity: 1;   filter: brightness(1.6); }
+  100% { transform: scale(0.3);  opacity: 0;   filter: brightness(1); }
+}
+
+/* Score number pop when it changes */
+@keyframes scorePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+.score-pop {
+  animation: scorePop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

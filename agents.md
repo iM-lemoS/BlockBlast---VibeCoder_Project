@@ -9,6 +9,6 @@ Rules:
 
 - Animations: Ensure that block placement and line clearing are smooth, fluid actions (like "fade out" or gentle scaling), not abrupt explosions.
 
-- Code: Focuse on React for web development.
+- Code: Focuse on using React for Web Development.
 
-- Develop step-by-step. 
+Develop step-by-step
