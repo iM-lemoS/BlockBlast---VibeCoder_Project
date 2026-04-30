@@ -32,11 +32,11 @@ export default function MenuPage() {
 
       {/* Card */}
       <div
-        className="relative z-10 flex flex-col items-center gap-8 p-12 rounded-3xl"
+        className="relative z-10 flex flex-col items-center gap-8 p-10 rounded-3xl"
         style={{
           background: 'var(--color-surface)',
           boxShadow: 'var(--shadow-card)',
-          maxWidth: 360,
+          maxWidth: 380,
           width: '90%',
         }}
       >
@@ -46,10 +46,15 @@ export default function MenuPage() {
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="w-5 h-5 rounded"
+                className="w-6 h-6 rounded-md"
                 style={{
-                  background: i % 2 === 0 ? 'var(--color-block)' : 'var(--color-block-light)',
-                  opacity: 0.8 + i * 0.05,
+                  backgroundColor: i % 2 === 0 ? 'var(--color-block)' : 'var(--color-block-light)',
+                  backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
+                  backgroundSize: '180%',
+                  backgroundBlendMode: 'overlay',
+                  boxShadow: `inset 0 -2px 4px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)`,
+                  opacity: 0.9,
+                  animation: 'furSway 15s ease-in-out infinite',
                 }}
               />
             ))}
@@ -75,10 +80,15 @@ export default function MenuPage() {
         <button
           id="btn-play"
           onClick={() => navigate('/play')}
-          className="w-full py-3.5 rounded-2xl text-white font-medium text-base tracking-wide transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full py-4 rounded-2xl text-white font-semibold text-lg tracking-wide transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           style={{
-            background: 'linear-gradient(135deg, var(--color-block) 0%, var(--color-block-dark) 100%)',
-            boxShadow: '0 4px 16px rgba(167, 139, 250, 0.35)',
+            backgroundColor: 'var(--color-block)',
+            backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
+            backgroundSize: '150%',
+            backgroundBlendMode: 'overlay',
+            boxShadow: 'inset 0 -4px 10px rgba(0,0,0,0.2), inset 0 4px 10px rgba(255,255,255,0.3), 0 8px 20px rgba(0,0,0,0.15)',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            animation: 'furSway 15s ease-in-out infinite',
           }}
         >
           Play

@@ -74,7 +74,7 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
                   backgroundColor: filled ? color : 'transparent',
                   backgroundImage: filled ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
                   backgroundSize: '180%',
-                  backgroundBlendMode: filled ? 'multiply' : 'normal',
+                  backgroundBlendMode: filled ? 'overlay' : 'normal',
                   boxShadow: filled
                     ? `inset 0 -2px 4px rgba(0,0,0,0.25),
                        inset 0 2px 4px rgba(255,255,255,0.4),

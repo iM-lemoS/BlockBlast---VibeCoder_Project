@@ -43,7 +43,7 @@ export default function Cell({
         backgroundColor: background,
         backgroundImage: color ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
         backgroundSize: '180%',
-        backgroundBlendMode: color ? 'multiply' : 'normal',
+        backgroundBlendMode: color ? 'overlay' : 'normal',
         boxShadow,
         animation,
         transition: color ? 'none' : 'background 0.15s ease',
