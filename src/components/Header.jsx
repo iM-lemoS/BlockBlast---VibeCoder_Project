@@ -23,83 +23,85 @@ export default function Header({ score, highScore }) {
         zIndex: 10,
       }}
     >
-      {/* Score */}
-      <ScoreBox label="Score" value={score} />
+      {/* Left Column: Score */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-start' }}>
+        <ScoreBox label="Score" value={score} />
+      </div>
 
-      {/* Title + back button */}
-      <button
-        id="btn-back-menu"
-        onClick={() => navigate('/')}
-        title="Back to menu"
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 2,
-          padding: '4px 8px',
-          borderRadius: 10,
-          transition: 'background 0.15s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg)')}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
-      >
-        {/* Mini block logo */}
-        <div style={{ display: 'flex', gap: 3 }}>
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: 2,
-                background: i === 1 ? 'var(--color-block)' : 'var(--color-block-light)',
-              }}
-            />
-          ))}
-        </div>
-        <span
+      {/* Center Column: Title + back button */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <button
+          id="btn-back-menu"
+          onClick={() => navigate('/')}
+          title="Back to menu"
           style={{
-            fontSize: 13,
-            fontWeight: 600,
-            letterSpacing: '-0.3px',
-            color: 'var(--color-block)',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+            padding: '4px 8px',
+            borderRadius: 10,
+            transition: 'background 0.15s ease',
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-bg)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
         >
-          Block Blast
-        </span>
-      </button>
+          {/* Mini block logo */}
+          <div style={{ display: 'flex', gap: 3 }}>
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 2,
+                  background: i === 1 ? 'var(--color-block)' : 'var(--color-block-light)',
+                }}
+              />
+            ))}
+          </div>
+          <span
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: '-0.3px',
+              color: 'var(--color-block)',
+            }}
+          >
+            Block Blast
+          </span>
+        </button>
+      </div>
 
-      {/* Theme Toggle */}
-      <button
-        onClick={toggleTheme}
-        title="Toggle Theme"
-        style={{
-          position: 'absolute',
-          right: '50%',
-          transform: 'translateX(80px)', // Offset from the center title
-          background: 'var(--color-bg)',
-          border: 'none',
-          cursor: 'pointer',
-          width: 32,
-          height: 32,
-          borderRadius: 16,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 16,
-          transition: 'transform 0.2s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateX(80px) scale(1.1)')}
-        onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateX(80px) scale(1)')}
-      >
-        {theme === 'dark' ? '☀️' : '🌙'}
-      </button>
-
-      {/* High Score */}
-      <ScoreBox label="Best" value={highScore} align="right" />
+      {/* Right Column: High Score + Theme Toggle */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16 }}>
+        <ScoreBox label="Best" value={highScore} align="right" />
+        <button
+          onClick={toggleTheme}
+          title="Toggle Theme"
+          style={{
+            background: 'var(--color-bg)',
+            border: 'none',
+            cursor: 'pointer',
+            width: 36,
+            height: 36,
+            borderRadius: 18,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 18,
+            transition: 'transform 0.2s ease',
+            flexShrink: 0,
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+      </div>
     </header>
   );
 }
