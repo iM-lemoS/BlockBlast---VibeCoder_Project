@@ -80,6 +80,7 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
                        inset 0 2px 4px rgba(255,255,255,0.4),
                        0 1px 3px rgba(0,0,0,0.1)`
                     : 'none',
+                  animation: filled ? 'furSway 15s ease-in-out infinite' : 'none',
                   transition: 'background 0.2s ease',
                 }}
               />

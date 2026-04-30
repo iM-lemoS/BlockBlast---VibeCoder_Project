@@ -17,8 +17,14 @@ export default function Cell({
       inset 0 3px 8px rgba(255,255,255,0.4),
       0 2px 5px rgba(0,0,0,0.1)
     `;
-    if (isPlaced)   animation = 'cellAppear 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both';
-    if (isClearing) animation = 'cellClear 0.38s ease-in forwards';
+    const furAnim = 'furSway 15s ease-in-out infinite';
+    if (isPlaced) {
+      animation = `cellAppear 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both, ${furAnim}`;
+    } else if (isClearing) {
+      animation = `cellClear 0.38s ease-in forwards, ${furAnim}`;
+    } else {
+      animation = furAnim;
+    }
   } else if (isInvalid) {
     background = 'rgba(252, 165, 165, 0.45)';
   } else if (isPreview && previewColor) {

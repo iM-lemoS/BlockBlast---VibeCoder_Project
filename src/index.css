@@ -70,3 +70,10 @@ body {
 .score-pop {
   animation: scorePop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Gentle swaying movement for the plush fur texture */
+@keyframes furSway {
+  0%   { background-position: 0px 0px; }
+  50%  { background-position: -8px 12px; }
+  100% { background-position: 0px 0px; }
+}
