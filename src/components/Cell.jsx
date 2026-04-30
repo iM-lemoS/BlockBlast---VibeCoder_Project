@@ -13,9 +13,9 @@ export default function Cell({
   if (color) {
     background = color;
     boxShadow = `
-      inset 0 -2px 0 rgba(0,0,0,0.13),
-      inset 0 1px 0 rgba(255,255,255,0.26),
-      0 1px 3px rgba(0,0,0,0.08)
+      inset 0 -3px 8px rgba(0,0,0,0.25),
+      inset 0 3px 8px rgba(255,255,255,0.4),
+      0 2px 5px rgba(0,0,0,0.1)
     `;
     if (isPlaced)   animation = 'cellAppear 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both';
     if (isClearing) animation = 'cellClear 0.38s ease-in forwards';
@@ -34,7 +34,10 @@ export default function Cell({
         width: '100%',
         aspectRatio: '1',
         borderRadius: 'var(--radius-cell)',
-        background,
+        backgroundColor: background,
+        backgroundImage: color ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
+        backgroundSize: '80%',
+        backgroundBlendMode: color ? 'multiply' : 'normal',
         boxShadow,
         animation,
         transition: color ? 'none' : 'background 0.15s ease',

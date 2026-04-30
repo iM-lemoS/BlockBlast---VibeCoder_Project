@@ -71,10 +71,14 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
                   width: cellSize,
                   height: cellSize,
                   borderRadius: Math.max(2, cellSize * 0.18),
-                  background: filled ? color : 'transparent',
+                  backgroundColor: filled ? color : 'transparent',
+                  backgroundImage: filled ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
+                  backgroundSize: '80%',
+                  backgroundBlendMode: filled ? 'multiply' : 'normal',
                   boxShadow: filled
-                    ? `inset 0 -${Math.ceil(cellSize * 0.07)}px 0 rgba(0,0,0,0.14),
-                       inset 0 ${Math.ceil(cellSize * 0.04)}px 0 rgba(255,255,255,0.22)`
+                    ? `inset 0 -2px 4px rgba(0,0,0,0.25),
+                       inset 0 2px 4px rgba(255,255,255,0.4),
+                       0 1px 3px rgba(0,0,0,0.1)`
                     : 'none',
                   transition: 'background 0.2s ease',
                 }}
