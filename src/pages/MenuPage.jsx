@@ -32,7 +32,7 @@ export default function MenuPage() {
 
       {/* Card */}
       <div
-        className="relative z-10 flex flex-col items-center gap-8 p-10 rounded-3xl"
+        className="relative z-10 flex flex-col items-center gap-8 px-10 py-16 rounded-3xl"
         style={{
           background: 'var(--color-surface)',
           boxShadow: 'var(--shadow-card)',
@@ -80,7 +80,7 @@ export default function MenuPage() {
         <button
           id="btn-play"
           onClick={() => navigate('/play')}
-          className="w-full py-4 rounded-2xl text-white font-semibold text-lg tracking-wide transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="w-3/4 py-3 rounded-2xl text-white font-semibold text-lg tracking-wide transition-all duration-200 hover:scale-[1.05] active:scale-[0.98]"
           style={{
             backgroundColor: 'var(--color-block)',
             backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
