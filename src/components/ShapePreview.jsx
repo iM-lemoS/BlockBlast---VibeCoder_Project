@@ -73,7 +73,7 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
                   borderRadius: Math.max(2, cellSize * 0.18),
                   backgroundColor: filled ? color : 'transparent',
                   backgroundImage: filled ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
-                  backgroundSize: '80%',
+                  backgroundSize: '180%',
                   backgroundBlendMode: filled ? 'multiply' : 'normal',
                   boxShadow: filled
                     ? `inset 0 -2px 4px rgba(0,0,0,0.25),

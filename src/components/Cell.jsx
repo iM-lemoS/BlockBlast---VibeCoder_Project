@@ -42,7 +42,7 @@ export default function Cell({
         borderRadius: 'var(--radius-cell)',
         backgroundColor: background,
         backgroundImage: color ? 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)' : 'none',
-        backgroundSize: '80%',
+        backgroundSize: '180%',
         backgroundBlendMode: color ? 'multiply' : 'normal',
         boxShadow,
         animation,
