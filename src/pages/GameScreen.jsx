@@ -8,15 +8,22 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 
-import { GameProvider, useGame, canPlace, GRID_SIZE } from '../context/GameContext';
+import {
+  GameProvider,
+  useGame,
+  canPlace,
+  simulatePlacement,
+  computeClearingCells,
+  GRID_SIZE,
+} from '../context/GameContext';
 import Header from '../components/Header';
 import Grid from '../components/Grid';
 import ShapeTray from '../components/ShapeTray';
+import { playPickup, playPlace, playClear, playEnd } from '../utils/sounds';
 
-const GRID_PADDING = 12; // px  (matches Grid component padding)
-const CELL_GAP = 4;      // px  (matches Grid component gap)
+const GRID_PADDING = 12;
+const CELL_GAP = 4;
 
-// ─── Root wrapper ────────────────────────────────────────────────────────────
 export default function GameScreen() {
   return (
     <GameProvider>
@@ -25,20 +32,32 @@ export default function GameScreen() {
   );
 }
 
-// ─── Main game view ───────────────────────────────────────────────────────────
 function GameView() {
   const { state, dispatch } = useGame();
-  const { grid, score, highScore, availableShapes, status } = state;
+  const { grid, score, highScore, availableShapes, status, soundEnabled } = state;
 
   const [draggingShapeId, setDraggingShapeId] = useState(null);
-  const [hoverCell, setHoverCell] = useState(null); // { row, col } | null
+  const [hoverCell, setHoverCell] = useState(null);
+
+  // Animation states
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [placedCells, setPlacedCells] = useState(new Set());
+  const [clearingCells, setClearingCells] = useState(new Set());
 
   const gridRef = useRef(null);
+  const prevStatusRef = useRef(status);
+
+  // ── Trigger Game Over sound ──
+  useEffect(() => {
+    if (status === 'GAME_OVER' && prevStatusRef.current !== 'GAME_OVER') {
+      if (soundEnabled) playEnd();
+    }
+    prevStatusRef.current = status;
+  }, [status, soundEnabled]);
 
   const draggingShape =
     availableShapes.find((s) => s?.id === draggingShapeId) ?? null;
 
-  // ── Compute cell size dynamically from actual grid DOM ──────────────────
   const getCellMetrics = useCallback(() => {
     if (!gridRef.current) return null;
     const rect = gridRef.current.getBoundingClientRect();
@@ -47,9 +66,8 @@ function GameView() {
     return { rect, cellSize };
   }, []);
 
-  // ── Track pointer while dragging to snap to grid cells ─────────────────
   useEffect(() => {
-    if (!draggingShapeId) {
+    if (!draggingShapeId || isAnimating) {
       setHoverCell(null);
       return;
     }
@@ -72,11 +90,10 @@ function GameView() {
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', onPointerMove);
-  }, [draggingShapeId, getCellMetrics]);
+  }, [draggingShapeId, getCellMetrics, isAnimating]);
 
-  // ── Preview: which cells would be filled and is the drop valid? ─────────
   const { previewCells, isInvalidDrop } = (() => {
-    if (!draggingShape || !hoverCell) {
+    if (!draggingShape || !hoverCell || isAnimating) {
       return { previewCells: new Set(), isInvalidDrop: false };
     }
     const keys = draggingShape.cells.map(
@@ -88,25 +105,76 @@ function GameView() {
     };
   })();
 
-  // ── dnd-kit sensors ─────────────────────────────────────────────────────
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 80, tolerance: 8 } })
   );
 
   function handleDragStart({ active }) {
+    if (isAnimating) return;
     setDraggingShapeId(active.id);
+    if (soundEnabled) playPickup();
   }
 
   function handleDragEnd({ active }) {
-    if (hoverCell && draggingShape && !isInvalidDrop) {
-      dispatch({
-        type: 'PLACE_SHAPE',
-        payload: { shapeId: active.id, row: hoverCell.row, col: hoverCell.col },
-      });
+    if (!hoverCell || !draggingShape || isInvalidDrop || isAnimating) {
+      setDraggingShapeId(null);
+      setHoverCell(null);
+      return;
     }
+
+    const row = hoverCell.row;
+    const col = hoverCell.col;
+    const blockCount = draggingShape.cells.length;
+
+    // 1. Lock interactions
+    setIsAnimating(true);
     setDraggingShapeId(null);
     setHoverCell(null);
+
+    if (soundEnabled) playPlace();
+
+    // 2. Compute animation targets based on current state + placement
+    const placedGrid = simulatePlacement(grid, draggingShape.cells, row, col, draggingShape.color);
+    const cellsToClear = computeClearingCells(placedGrid);
+    const placedKeys = new Set(
+      draggingShape.cells.map(([dr, dc]) => `${row + dr}-${col + dc}`)
+    );
+
+    // 3. Dispatch placement to update UI immediately
+    dispatch({
+      type: 'PLACE_SHAPE',
+      payload: { shapeId: active.id, row, col },
+    });
+
+    setPlacedCells(placedKeys);
+
+    // 4. Sequence animations
+    setTimeout(() => {
+      // Clear placed bounce state
+      setPlacedCells(new Set());
+
+      if (cellsToClear.size > 0) {
+        // Trigger clear animation
+        setClearingCells(cellsToClear);
+        
+        // Calculate number of lines for sound scaling
+        // This is a rough estimation based on size, could be improved but works well enough
+        const estimatedLines = Math.floor(cellsToClear.size / GRID_SIZE);
+        if (soundEnabled) playClear(estimatedLines);
+
+        setTimeout(() => {
+          // Finish clearing
+          setClearingCells(new Set());
+          dispatch({ type: 'COMMIT_CLEAR', payload: { blockCount } });
+          setIsAnimating(false);
+        }, 400); // 400ms matches CSS cellClear animation duration
+      } else {
+        // No lines to clear, just commit
+        dispatch({ type: 'COMMIT_CLEAR', payload: { blockCount } });
+        setIsAnimating(false);
+      }
+    }, 300); // 300ms matches CSS cellAppear animation duration
   }
 
   function handleDragCancel() {
@@ -148,8 +216,10 @@ function GameView() {
             previewCells={previewCells}
             isInvalidDrop={isInvalidDrop}
             previewColor={draggingShape?.color ?? null}
+            placedCells={placedCells}
+            clearingCells={clearingCells}
           />
-          <ShapeTray shapes={availableShapes} />
+          <ShapeTray shapes={availableShapes} isAnimating={isAnimating} />
         </main>
 
         {status === 'GAME_OVER' && (
@@ -161,7 +231,6 @@ function GameView() {
         )}
       </div>
 
-      {/* Floating shape following the cursor */}
       <DragOverlay dropAnimation={null}>
         {draggingShape ? <ShapeOverlay shape={draggingShape} /> : null}
       </DragOverlay>
@@ -169,7 +238,6 @@ function GameView() {
   );
 }
 
-// ─── Full-size drag overlay ───────────────────────────────────────────────────
 const OVERLAY_CELL = 38;
 const OVERLAY_GAP = 4;
 
@@ -216,7 +284,6 @@ function ShapeOverlay({ shape }) {
   );
 }
 
-// ─── Game Over overlay ────────────────────────────────────────────────────────
 function GameOverOverlay({ score, highScore, onNewGame }) {
   const isNewRecord = score > 0 && score >= highScore;
 

@@ -76,7 +76,21 @@ export default function Header({ score, highScore }) {
   );
 }
 
+import { useEffect, useState, useRef } from 'react';
+
 function ScoreBox({ label, value, align = 'left' }) {
+  const [isPopping, setIsPopping] = useState(false);
+  const prevValueRef = useRef(value);
+
+  useEffect(() => {
+    if (value > prevValueRef.current) {
+      setIsPopping(true);
+      const timer = setTimeout(() => setIsPopping(false), 250); // Matches CSS animation duration
+      return () => clearTimeout(timer);
+    }
+    prevValueRef.current = value;
+  }, [value]);
+
   return (
     <div
       style={{
@@ -98,12 +112,13 @@ function ScoreBox({ label, value, align = 'left' }) {
         {label}
       </span>
       <span
+        className={isPopping ? 'score-pop' : ''}
         style={{
           fontSize: 24,
           fontWeight: 600,
           lineHeight: 1.1,
           color: 'var(--color-text)',
-          transition: 'transform 0.15s ease',
+          display: 'inline-block', // Required for CSS transform animation
         }}
       >
         {value.toLocaleString()}
