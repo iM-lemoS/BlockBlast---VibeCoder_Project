@@ -13,9 +13,9 @@
 const TRAY_BOX = 72; // bounding box size (px) for the preview
 const GAP = 3;
 
-function getCellSize(maxDim) {
-  // Scale the cell so the widest/tallest shape fills the bounding box
-  return Math.floor((TRAY_BOX - GAP * (maxDim - 1)) / maxDim);
+function getCellSize() {
+  // Use a fixed size so all blocks are uniform across different shapes
+  return 15;
 }
 
 export default function ShapePreview({ shape, used = false, dragging = false }) {
@@ -31,7 +31,7 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
   const rows = maxRow + 1;
   const cols = maxCol + 1;
 
-  const cellSize = getCellSize(Math.max(rows, cols));
+  const cellSize = getCellSize();
   const cellSet = new Set(cells.map(([r, c]) => `${r}-${c}`));
 
   // Actual rendered dimensions (may be smaller than TRAY_BOX for non-square shapes)
@@ -41,8 +41,6 @@ export default function ShapePreview({ shape, used = false, dragging = false }) 
   return (
     <div
       style={{
-        width: TRAY_BOX,
-        height: TRAY_BOX,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
