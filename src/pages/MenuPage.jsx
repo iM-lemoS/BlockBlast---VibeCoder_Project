@@ -32,77 +32,79 @@ export default function MenuPage() {
 
       {/* Card */}
       <div
-        className="relative z-10 flex flex-col items-center gap-8 px-10 py-16 rounded-3xl"
+        className="relative z-10 flex flex-col items-center justify-center gap-8 px-10 py-10 rounded-3xl"
         style={{
           background: 'var(--color-surface)',
           boxShadow: 'var(--shadow-card)',
           maxWidth: 380,
           width: '90%',
+          minHeight: '450px',
+        }}
         }}
       >
-        {/* Logo / Title */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex gap-1.5 mb-1">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="w-6 h-6 rounded-md"
-                style={{
-                  backgroundColor: i % 2 === 0 ? 'var(--color-block)' : 'var(--color-block-light)',
-                  backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
-                  backgroundSize: '180%',
-                  backgroundBlendMode: 'overlay',
-                  boxShadow: `inset 0 -2px 4px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)`,
-                  opacity: 0.9,
-                  animation: 'furSway 15s ease-in-out infinite',
-                }}
-              />
-            ))}
-          </div>
-          <h1
-            className="text-3xl font-semibold tracking-tight"
-            style={{ color: 'var(--color-text)' }}
-          >
-            Block Blast
-          </h1>
-          <p
-            className="text-sm font-light text-center"
-            style={{ color: 'var(--color-text-muted)' }}
-          >
-            A calm puzzle, at your own pace.
-          </p>
+      {/* Logo / Title */}
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex gap-1.5 mb-1">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-6 h-6 rounded-md"
+              style={{
+                backgroundColor: i % 2 === 0 ? 'var(--color-block)' : 'var(--color-block-light)',
+                backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
+                backgroundSize: '180%',
+                backgroundBlendMode: 'overlay',
+                boxShadow: `inset 0 -2px 4px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)`,
+                opacity: 0.9,
+                animation: 'furSway 15s ease-in-out infinite',
+              }}
+            />
+          ))}
         </div>
-
-        {/* High Score */}
-        <HighScoreDisplay />
-
-        {/* Play Button */}
-        <button
-          id="btn-play"
-          onClick={() => navigate('/play')}
-          className="w-3/4 py-3 rounded-2xl text-white font-semibold text-lg tracking-wide transition-all duration-200 hover:scale-[1.05] active:scale-[0.98]"
-          style={{
-            backgroundColor: 'var(--color-block)',
-            backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
-            backgroundSize: '150%',
-            backgroundBlendMode: 'overlay',
-            boxShadow: 'inset 0 -4px 10px rgba(0,0,0,0.2), inset 0 4px 10px rgba(255,255,255,0.3), 0 8px 20px rgba(0,0,0,0.15)',
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            animation: 'furSway 15s ease-in-out infinite',
-          }}
+        <h1
+          className="text-3xl font-semibold tracking-tight"
+          style={{ color: 'var(--color-text)' }}
         >
-          Play
-        </button>
-
-        {/* Footer hint */}
+          Block Blast
+        </h1>
         <p
-          className="text-xs font-light"
+          className="text-sm font-light text-center"
           style={{ color: 'var(--color-text-muted)' }}
         >
-          No timers. No pressure. Just flow.
+          A calm puzzle, at your own pace.
         </p>
       </div>
+
+      {/* High Score */}
+      <HighScoreDisplay />
+
+      {/* Play Button */}
+      <button
+        id="btn-play"
+        onClick={() => navigate('/play')}
+        className="w-3/4 py-3 rounded-2xl text-white font-semibold text-lg tracking-wide transition-all duration-200 hover:scale-[1.05] active:scale-[0.98]"
+        style={{
+          backgroundColor: 'var(--color-block)',
+          backgroundImage: 'url(/BlockBlast---VibeCoder_Project/assets/fur-texture.png)',
+          backgroundSize: '150%',
+          backgroundBlendMode: 'overlay',
+          boxShadow: 'inset 0 -4px 10px rgba(0,0,0,0.2), inset 0 4px 10px rgba(255,255,255,0.3), 0 8px 20px rgba(0,0,0,0.15)',
+          textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+          animation: 'furSway 15s ease-in-out infinite',
+        }}
+      >
+        Play
+      </button>
+
+      {/* Footer hint */}
+      <p
+        className="text-xs font-light"
+        style={{ color: 'var(--color-text-muted)' }}
+      >
+        No timers. No pressure. Just flow.
+      </p>
     </div>
+    </div >
   );
 }
 
