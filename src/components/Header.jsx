@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * Header — displays score, game title and high score.
@@ -6,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
  */
 export default function Header({ score, highScore }) {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header
@@ -68,6 +70,32 @@ export default function Header({ score, highScore }) {
         >
           Block Blast
         </span>
+      </button>
+
+      {/* Theme Toggle */}
+      <button
+        onClick={toggleTheme}
+        title="Toggle Theme"
+        style={{
+          position: 'absolute',
+          right: '50%',
+          transform: 'translateX(80px)', // Offset from the center title
+          background: 'var(--color-bg)',
+          border: 'none',
+          cursor: 'pointer',
+          width: 32,
+          height: 32,
+          borderRadius: 16,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 16,
+          transition: 'transform 0.2s ease',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateX(80px) scale(1.1)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateX(80px) scale(1)')}
+      >
+        {theme === 'dark' ? '☀️' : '🌙'}
       </button>
 
       {/* High Score */}

@@ -1,13 +1,25 @@
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 export default function MenuPage() {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center"
+      className="min-h-screen flex flex-col items-center justify-center relative"
       style={{ background: 'var(--color-bg)' }}
     >
+      {/* Theme Toggle (Top Right) */}
+      <button
+        onClick={toggleTheme}
+        title="Toggle Theme"
+        className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center text-xl transition-transform hover:scale-110"
+        style={{ background: 'var(--color-surface)', boxShadow: 'var(--shadow-soft)' }}
+      >
+        {theme === 'dark' ? '☀️' : '🌙'}
+      </button>
+
       {/* Ambient background blobs */}
       <div
         className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-30 blur-3xl pointer-events-none"

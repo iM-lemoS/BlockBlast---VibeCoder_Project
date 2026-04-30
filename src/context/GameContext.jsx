@@ -70,6 +70,7 @@ function makeInitialState() {
     availableShapes: generateShapes(3),
     status: 'PLAYING',
     soundEnabled: true,
+    theme: localStorage.getItem('blockblast_theme') || 'light',
   };
 }
 
@@ -124,6 +125,9 @@ function gameReducer(state, action) {
     case 'TOGGLE_SOUND':
       return { ...state, soundEnabled: !state.soundEnabled };
 
+    case 'TOGGLE_THEME':
+      return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
+
     default:
       return state;
   }
@@ -138,6 +142,15 @@ export function GameProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(LS_KEY, state.highScore.toString());
   }, [state.highScore]);
+
+  useEffect(() => {
+    localStorage.setItem('blockblast_theme', state.theme);
+    if (state.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [state.theme]);
 
   return (
     <GameContext.Provider value={{ state, dispatch }}>

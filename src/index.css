@@ -1,23 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
-/* ─── Zen Design Tokens ──────────────────────────────────────────────── */
+/* ─── Zen Design Tokens (Light Theme) ────────────────────────────────── */
 :root {
-  --color-bg:          #F4F4F5;
+  --color-bg:          #FDFBF6; /* Creamy white tone */
   --color-surface:     #FFFFFF;
-  --color-cell-empty:  #E4E4E7;
-  --color-cell-border: #D4D4D8;
+  --color-cell-empty:  #EBE8E0; /* Slightly darker cream for empty cells */
+  --color-cell-border: #DCD8CF;
   --color-block:       #A78BFA;
   --color-block-light: #C4B5FD;
   --color-block-dark:  #7C3AED;
   --color-text:        #3F3F46;
-  --color-text-muted:  #A1A1AA;
+  --color-text-muted:  #9CA3AF;
   --color-accent:      #BAE6FD;
-  --shadow-soft:       0 2px 12px rgba(0, 0, 0, 0.06);
-  --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-soft:       0 2px 12px rgba(0, 0, 0, 0.05);
+  --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.06);
   --radius-cell:       6px;
   --radius-card:       16px;
   --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Zen Design Tokens (Dark Theme) ─────────────────────────────────── */
+html.dark {
+  --color-bg:          #18181B; /* Dark gray */
+  --color-surface:     #27272A;
+  --color-cell-empty:  #3F3F46;
+  --color-cell-border: #52525B;
+  --color-text:        #F4F4F5;
+  --color-text-muted:  #A1A1AA;
+  --shadow-soft:       0 2px 12px rgba(0, 0, 0, 0.3);
+  --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* ─── Base Reset ─────────────────────────────────────────────────────── */
@@ -29,6 +41,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 /* ─── Cell Animations ────────────────────────────────────────────────── */
